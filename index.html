@@ -357,6 +357,8 @@
     <li data-value="Finnifty">Finnifty</li>
     <li data-value="Bankex">Bankex</li>
   </ul>
+  <!-- hidden input that will hold the value -->
+  <input type="hidden"  id="index"  name="index" required>  
 </div>
 
 <div class="custom-dropdown">
@@ -365,6 +367,8 @@
     <li data-value="CALL">CALL</li>
     <li data-value="PUT">PUT</li>
   </ul>
+  <!-- hidden input that will hold the value -->
+  <input type="hidden" id="optionType" name="optionType" required>  
 </div>
 
 
@@ -398,14 +402,14 @@
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
 
-      // Close all dropdowns first
+      // Close others
       document.querySelectorAll('.dropdown-list').forEach(list => {
         if (list !== this.nextElementSibling) {
           list.style.display = 'none';
         }
       });
 
-      // Toggle only this one
+      // Toggle current
       let list = this.nextElementSibling;
       list.style.display = (list.style.display === 'block') ? 'none' : 'block';
     });
@@ -416,19 +420,23 @@
     item.addEventListener('click', function () {
       let dropdown = this.closest('.custom-dropdown');
       let btn = dropdown.querySelector('.dropdown-btn');
-      btn.textContent = this.getAttribute('data-value') + " ▾";
-      btn.dataset.value = this.getAttribute('data-value');
+      let hiddenInput = dropdown.querySelector('input[type="hidden"]');
+
+      let value = this.getAttribute('data-value');
+      btn.textContent = value + " ▾";
+      hiddenInput.value = value;   // store value for form
       dropdown.querySelector('.dropdown-list').style.display = 'none';
     });
   });
 
-  // Close all dropdowns if clicking outside
+  // Close if clicking outside
   window.addEventListener('click', function() {
     document.querySelectorAll('.dropdown-list').forEach(list => {
       list.style.display = 'none';
     });
   });
 </script>
+
 
 
 
@@ -5299,6 +5307,43 @@ retest
       const resultBox1 = document.getElementById("resultBox1");
       const resultBox2 = document.getElementById("resultBox2");
       const pairBox = document.getElementById("pairBox");
+
+
+
+      // index and option select check 
+      const index_select = document.getElementById("index");
+      const option_select = document.getElementById("optionType");
+      console.log(" selected index , ",index_select.value);
+
+
+
+
+
+      if(index_select.value=="")
+      {
+        resultBox1.textContent = "Enter Index .";
+        resultBox2.textContent = "";
+        pairBox.innerHTML = "";
+        result.classList.add("show");
+        return;        
+
+      }
+      if(option_select.value=="")
+      {
+        resultBox1.textContent = "Enter Option CALL or PUT  .";
+        resultBox2.textContent = "";
+        pairBox.innerHTML = "";
+        result.classList.add("show");
+        return;        
+
+      }
+
+
+
+
+
+
+
 
 
       // web assembly

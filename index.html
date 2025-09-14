@@ -83,6 +83,96 @@
       text-align: center;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.dropdown-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  /*background: #fff;*/
+  background: #fff;
+  /*color: grey;*/
+  color: black;
+
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-btn:after {
+  content: "▾";
+  float: right;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0;
+}
+
+.dropdown-list li {
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-list li:hover {
+  background: #f2f2f2;
+}
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     h2 {
       margin-bottom: 10px;
       color: #333;
@@ -255,23 +345,29 @@
     <form id="numberForm">
 
       <!-- copy-->
-      <select>
-        <!-- <option value="" disabled selected>Select Index</option> -->
-        <option value="" >Select Index</option>
-        <option value="1">Nifty 50</option>
-        <option value="2">Bank Nifty </option>
-        <option value="3">Sensex 30</option>
-        <option value="3">Nifty Midcap Select 100</option>
-        <option value="3">Finnifty</option>
-        <option value="3">Bankex</option>
-      </select>
+<!-- ✅ Custom Dropdowns -->
+<!-- ✅ Custom Dropdowns -->
+<div class="custom-dropdown">
+  <button type="button" class="dropdown-btn">Select Index ▾</button>
+  <ul class="dropdown-list">
+    <li data-value="Nifty 50">Nifty 50</li>
+    <li data-value="Bank Nifty">Bank Nifty</li>
+    <li data-value="Sensex 30">Sensex 30</li>
+    <li data-value="Nifty Midcap Select 100">Nifty Midcap Select 100</li>
+    <li data-value="Finnifty">Finnifty</li>
+    <li data-value="Bankex">Bankex</li>
+  </ul>
+</div>
 
-      <select>
-        <!-- <option value="" disabled selected>Select CALL or PUT</option> -->
-        <option value="" >Select CALL or PUT</option>
-        <option value="1">CALL</option>
-        <option value="2">PUT</option>
-      </select>
+<div class="custom-dropdown">
+  <button type="button" class="dropdown-btn">Select CALL or PUT ▾</button>
+  <ul class="dropdown-list">
+    <li data-value="CALL">CALL</li>
+    <li data-value="PUT">PUT</li>
+  </ul>
+</div>
+
+
      <!-- copy close -->
 
       <!--
@@ -293,6 +389,38 @@
 
 
   <!-- <script src="default.js"></script> -->
+
+
+
+  <script>
+  // Toggle dropdown
+  document.querySelectorAll('.dropdown-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation(); // Prevent closing immediately
+      let list = this.nextElementSibling;
+      list.style.display = list.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+
+  // Select value
+  document.querySelectorAll('.dropdown-list li').forEach(item => {
+    item.addEventListener('click', function () {
+      let dropdown = this.closest('.custom-dropdown');
+      let btn = dropdown.querySelector('.dropdown-btn');
+      btn.textContent = this.getAttribute('data-value') + " ▾"; // Keep arrow
+      btn.dataset.value = this.getAttribute('data-value'); // Save value
+      dropdown.querySelector('.dropdown-list').style.display = 'none';
+    });
+  });
+
+  // Close dropdown if clicked outside
+  window.addEventListener('click', function() {
+    document.querySelectorAll('.dropdown-list').forEach(list => {
+      list.style.display = 'none';
+    });
+  });
+</script>
+
 
 
 
@@ -5071,6 +5199,9 @@ retest
 
 
   <script>
+
+
+
 
 
 

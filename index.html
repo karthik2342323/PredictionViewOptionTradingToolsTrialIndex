@@ -392,13 +392,22 @@
 
 
 
-  <script>
-  // Toggle dropdown
+<script>
+  // Toggle dropdowns
   document.querySelectorAll('.dropdown-btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
-      e.stopPropagation(); // Prevent closing immediately
+      e.stopPropagation();
+
+      // Close all dropdowns first
+      document.querySelectorAll('.dropdown-list').forEach(list => {
+        if (list !== this.nextElementSibling) {
+          list.style.display = 'none';
+        }
+      });
+
+      // Toggle only this one
       let list = this.nextElementSibling;
-      list.style.display = list.style.display === 'block' ? 'none' : 'block';
+      list.style.display = (list.style.display === 'block') ? 'none' : 'block';
     });
   });
 
@@ -407,19 +416,20 @@
     item.addEventListener('click', function () {
       let dropdown = this.closest('.custom-dropdown');
       let btn = dropdown.querySelector('.dropdown-btn');
-      btn.textContent = this.getAttribute('data-value') + " ▾"; // Keep arrow
-      btn.dataset.value = this.getAttribute('data-value'); // Save value
+      btn.textContent = this.getAttribute('data-value') + " ▾";
+      btn.dataset.value = this.getAttribute('data-value');
       dropdown.querySelector('.dropdown-list').style.display = 'none';
     });
   });
 
-  // Close dropdown if clicked outside
+  // Close all dropdowns if clicking outside
   window.addEventListener('click', function() {
     document.querySelectorAll('.dropdown-list').forEach(list => {
       list.style.display = 'none';
     });
   });
 </script>
+
 
 
 
